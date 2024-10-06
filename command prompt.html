@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Command Prompt Website</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: monospace;
+            padding: 20px;
+        }
+
+        #console {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .line {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .line span {
+            color: lightgreen;
+        }
+
+        .input-field {
+            background-color: black;
+            color: white;
+            border: none;
+            width: 100%;
+            font-family: monospace;
+            font-size: 16px;
+        }
+
+        .input-field:focus {
+            outline: none;
+        }
+
+        .output {
+            color: lightgray;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #fff;
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="console">
+        <div id="history"></div>
+        <div class="line">
+            <span>></span> <input type="text" id="input" class="input-field" autofocus />
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('input');
+        const history = document.getElementById('history');
+        let executedCommands = [];
+
+        // Function to handle command execution
+        function executeCommand(command) {
+            const outputDiv = document.createElement('div');
+            outputDiv.classList.add('line');
+            outputDiv.innerHTML = `<span>></span> ${command}`;
+            history.appendChild(outputDiv);
+
+            const resultDiv = document.createElement('div');
+            resultDiv.classList.add('output');
+
+            switch (command.toLowerCase()) {
+                case 'help':
+                    resultDiv.innerHTML = 'Available commands: help, command1, command2, command3, showimage, openwebsite';
+                    executedCommands.push('help');
+                    break;
+
+                case 'command1':
+                    resultDiv.innerHTML = 'Command 1 executed.';
+                    executedCommands.push('command1');
+                    break;
+
+                case 'command2':
+                    if (executedCommands.includes('command1')) {
+                        resultDiv.innerHTML = 'Command 2 executed.';
+                        executedCommands.push('command2');
+                    } else {
+                        resultDiv.innerHTML = 'Error: Command 2 requires command1 to be executed first.';
+                    }
+                    break;
+
+                case 'command3':
+                    if (executedCommands.includes('command2')) {
+                        resultDiv.innerHTML = 'Command 3 executed.';
+                        executedCommands.push('command3');
+                    } else {
+                        resultDiv.innerHTML = 'Error: Command 3 requires command2 to be executed first.';
+                    }
+                    break;
+
+                case 'showimage':
+                    resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
+                    executedCommands.push('showimage');
+                    break;
+
+                case 'openwebsite':
+                    if (executedCommands.includes('command1')) {
+                        resultDiv.innerHTML = 'Opening subdomain: <a href="https://subdomain.example.com" target="_blank">subdomain.example.com</a>';
+                        window.open('https://subdomain.example.com', '_blank');
+                    } else {
+                        resultDiv.innerHTML = 'Error: openwebsite requires command1 to be executed first.';
+                    }
+                    break;
+
+                default:
+                    resultDiv.innerHTML = `Unknown command: ${command}`;
+            }
+
+            history.appendChild(resultDiv);
+            history.scrollTop = history.scrollHeight;  // Scroll to the bottom
+        }
+
+        // Event listener for user input
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                const command = input.value.trim();
+                if (command) {
+                    executeCommand(command);
+                    input.value = '';  // Clear input field
+                }
+            }
+        });
+
+        // Focus input on load
+        window.onload = () => {
+            input.focus();
+        }
+    </script>
+</body>
+</html>
