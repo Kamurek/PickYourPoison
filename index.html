@@ -6,12 +6,12 @@
     <title>Command Prompt Interface</title>
     <style>
         body {
-            background-color: gray; /* Background color */
-            color: blue; /* Text color */
+            background-color: gray;
+            color: blue;
             font-family: monospace;
-            padding: 0; /* Removed padding */
+            padding: 0;
             margin: 0;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+            overflow-x: hidden;
         }
 
         #container {
@@ -20,50 +20,50 @@
 
         #sidebar {
             background-color: black;
-            width: 320px; /* Width of sidebars */
-            height: 100vh; /* Full height */
+            width: 320px;
+            height: 100vh;
         }
 
         #console {
-            flex-grow: 1; /* Allow console to take remaining space */
-            margin: 0 20px; /* Margin to respect the sidebars */
+            flex-grow: 1;
+            margin: 0 20px;
             padding: 20px;
-            overflow-y: auto; /* Allow vertical scrolling */
-            height: calc(100vh - 50px); /* Leave space for the program bar */
-            position: relative; /* Positioning context for absolute elements */
+            overflow-y: auto;
+            height: calc(100vh - 50px);
+            position: relative;
         }
 
         #program-bar {
-            background-color: darkgray; /* Background color of program bar */
+            background-color: darkgray;
             display: flex;
-            justify-content: space-between; /* Space between title and close button */
-            align-items: center; /* Center vertically */
-            padding: 2px 5px; /* Adjust the vertical padding to 2px and horizontal padding to 5px */
-            position: fixed; /* Fixed to the top */
-            top: 0; /* Stick to the top */
-            left: 320px; /* Respect the left sidebar */
-            right: 320px; /* Respect the right sidebar */
-            height: 30px; /* Set a defined height (reduce from 50px to 30px) */
-            z-index: 1000; /* Ensure it's above other content */
+            justify-content: space-between;
+            align-items: center;
+            padding: 2px 5px;
+            position: fixed;
+            top: 0;
+            left: 320px;
+            right: 320px;
+            height: 30px;
+            z-index: 1000;
         }
 
         .line {
-            display: flex; /* Keep input and command prompt on the same line */
+            display: flex;
             margin-bottom: 10px;
-            margin-top: 40px; /* Add margin to move it below the program bar */
+            margin-top: 40px;
         }
 
         .line span {
-            color: blue; /* Changed color of command prompt arrow to blue */
+            color: blue;
         }
 
         .input-field {
-            background-color: gray; /* Match with body background */
-            color: blue; /* Changed input text color to blue */
+            background-color: gray;
+            color: blue;
             border: none;
             font-family: monospace;
             font-size: 16px;
-            flex-grow: 1; /* Input takes remaining space */
+            flex-grow: 1;
         }
 
         .input-field:focus {
@@ -71,12 +71,12 @@
         }
 
         .output {
-            color: lightgray; /* Output color */
+            color: lightgray;
         }
 
         img {
             max-width: 100%;
-            height: auto; /* Keep image responsive */
+            height: auto;
             border: 1px solid #fff;
             margin-top: 10px;
         }
@@ -84,10 +84,10 @@
         .close-button {
             background: none;
             border: none;
-            color: red; /* Color of the close button */
+            color: red;
             font-size: 16px;
             cursor: pointer;
-            padding: 5px 10px; /* Optional padding for button */
+            padding: 5px 10px;
         }
     </style>
 </head>
@@ -97,21 +97,32 @@
         <button class="close-button" onclick="closeWindow()">X</button>
     </div>
     <div id="container">
-        <div id="sidebar"></div> <!-- Left Sidebar -->
+        <div id="sidebar"></div>
         <div id="console">
             <div id="history"></div>
             <div class="line">
                 <span>></span> <input type="text" id="input" class="input-field" autofocus />
             </div>
         </div>
-        <div id="sidebar"></div> <!-- Right Sidebar -->
+        <div id="sidebar"></div>
     </div>
 
     <script>
         const input = document.getElementById('input');
         const history = document.getElementById('history');
 
-        // Function to handle command execution
+        const validUsername = 'yourUsername';  // Replace with desired username
+        const validPassword = 'yourPassword';  // Replace with desired password
+        let loggedIn = false;
+
+        function displayPrompt(message) {
+            const outputDiv = document.createElement('div');
+            outputDiv.classList.add('output');
+            outputDiv.innerHTML = message;
+            history.appendChild(outputDiv);
+            history.scrollTop = history.scrollHeight;
+        }
+
         function executeCommand(command) {
             const outputDiv = document.createElement('div');
             outputDiv.classList.add('line');
@@ -121,45 +132,79 @@
             const resultDiv = document.createElement('div');
             resultDiv.classList.add('output');
 
-            switch (command.toLowerCase()) {
-                case 'help':
-                    resultDiv.innerHTML = 'Available commands: help, command1, showimage, openwebsite';
-                    break;
-                case 'command1':
-                    resultDiv.innerHTML = 'Command 1 executed.';
-                    break;
-                case 'showimage':
-                    resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
-                    break;
-                case 'openwebsite':
-                    resultDiv.innerHTML = 'Opening subdomain: <a href="himalawaydictionary.html" target="_blank">himalawaydictionary.html</a>';
-                    window.open('himalawaydictionary.html', '_blank');
-                    break;
-                default:
-                    resultDiv.innerHTML = `Unknown command: ${command}`;
+            if (command.toLowerCase() === 'login') {
+                displayLoginPrompt();
+            } else if (command.toLowerCase() === 'logout') {
+                loggedIn = false;
+                resultDiv.innerHTML = 'You have been logged out.';
+            } else if (!loggedIn) {
+                resultDiv.innerHTML = 'You must log in to execute this command.';
+            } else {
+                switch (command.toLowerCase()) {
+                    case 'help':
+                        resultDiv.innerHTML = 'Available commands: help, command1, showimage, openwebsite, logout';
+                        break;
+                    case 'command1':
+                        loadDynamicContent();
+                        break;
+                    case 'showimage':
+                        resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
+                        break;
+                    case 'openwebsite':
+                        resultDiv.innerHTML = 'Opening subdomain: <a href="himalawaydictionary.html" target="_blank">himalawaydictionary.html</a>';
+                        window.open('himalawaydictionary.html', '_blank');
+                        break;
+                    default:
+                        resultDiv.innerHTML = `Unknown command: ${command}`;
+                }
             }
 
             history.appendChild(resultDiv);
-            history.scrollTop = history.scrollHeight;  // Scroll to the bottom automatically
+            history.scrollTop = history.scrollHeight;
+        }
+
+        function loadDynamicContent() {
+            const dynamicContentDiv = document.createElement('div');
+            dynamicContentDiv.classList.add('output');
+            dynamicContentDiv.innerHTML = `
+                <h3>Dynamic Content Loaded!</h3>
+                <p>This content was loaded because you typed <strong>command1</strong>.</p>
+                <img src="https://via.placeholder.com/150" alt="Dynamic Image">
+            `;
+            history.appendChild(dynamicContentDiv);
+        }
+
+        function validateCredentials(username, password) {
+            if (username === validUsername && password === validPassword) {
+                loggedIn = true;
+                displayPrompt('Login successful. You can now use commands.');
+            } else {
+                displayPrompt('Invalid username or password.');
+            }
+        }
+
+        function displayLoginPrompt() {
+            const username = prompt('Username:');
+            const password = prompt('Password:');
+            validateCredentials(username, password);
         }
 
         input.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                const command = input.value.trim();  // Get the typed command
+                const command = input.value.trim();
                 if (command) {
-                    executeCommand(command);  // Execute the command
-                    input.value = '';  // Clear input field after execution
+                    executeCommand(command);
+                    input.value = '';
                 }
             }
         });
 
-        window.onload = () => input.focus(); // Focus input on load
-
-        // Function to close the window
+        window.onload = () => input.focus();
+        
         function closeWindow() {
-            window.open('', '_self', ''); // This targets the current window
-            window.close(); // Finally, attempts to close the window
-            alert('CloseWindow function doesnt work in your scenario, RIPXD sorry');
+            window.open('', '_self', ''); // Target current window
+            window.close(); // Attempt to close the window
+            alert('CloseWindow function doesn\'t work in your scenario, RIPXD sorry');
         }
     </script>
 </body>
