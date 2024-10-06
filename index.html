@@ -18,7 +18,7 @@
         }
 
         .line {
-            display: block;
+            display: flex; /* Changed from block to flex to align items in the same line */
             margin-bottom: 10px;
         }
 
@@ -30,9 +30,9 @@
             background-color: black;
             color: white;
             border: none;
-            width: 100%;
             font-family: monospace;
             font-size: 16px;
+            flex-grow: 1; /* Ensure the input grows to fit available space */
         }
 
         .input-field:focus {
