@@ -49,6 +49,7 @@
         .line {
             display: flex; /* Keep input and command prompt on the same line */
             margin-bottom: 10px;
+            margin-top: 40px; /* Add margin to move it below the program bar */
         }
 
         .line span {
@@ -91,7 +92,7 @@
 <body>
     <div id="program-bar">
         <div>Command Prompt Interface</div>
-        <button class="close-button" onclick="window.close()">X</button>
+        <button class="close-button" onclick="closeWindow()">X</button>
     </div>
     <div id="container">
         <div id="sidebar"></div> <!-- Left Sidebar -->
@@ -156,8 +157,7 @@
 
         // Function to close the window
         function closeWindow() {
-            document.body.innerHTML = "<h1>Goodbye!</h1><p>The window is closed.</p>";
-            document.body.style.backgroundColor = "gray"; // Set a background color for the goodbye message
+            window.close(); // Attempt to close the current tab
         }
     </script>
 </body>
