@@ -38,11 +38,11 @@
             display: flex;
             justify-content: space-between; /* Space between title and close button */
             align-items: center; /* Center vertically */
-            padding: 5px 5px; /* 5px padding */
+            padding: 2px 5px; /* 5px and 10px */
             position: fixed; /* Fixed to the top */
             top: 0; /* Stick to the top */
             left: 320px; /* Respect the left sidebar */
-            right: 320px; /* Respect the right sidebar, adjust width to take only center space */
+            right: 320px; /* Respect the right sidebar */
             height: 50px; /* Set a defined height */
             z-index: 1000; /* Ensure it's above other content */
         }
@@ -157,12 +157,8 @@
 
         // Function to close the window
         function closeWindow() {
-            const isOpenedByScript = window.opener || window.name; // Check if the window is opened by script
-            if (isOpenedByScript) {
-                window.close();
-            } else {
-                alert("This window cannot be closed as it was not opened by a script.");
-            }
+            window.open('', '_self', ''); // This targets the current window
+            window.close(); // Finally, attempts to close the window
         }
     </script>
 </body>
