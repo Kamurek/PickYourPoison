@@ -42,7 +42,7 @@
             position: fixed; /* Fixed to the top */
             top: 0; /* Stick to the top */
             left: 320px; /* Respect the left sidebar */
-            width: calc(100% - 340px); /* Adjust width to respect sidebars */
+            width: calc(100% - 640px); /* Adjust width to respect both sidebars */
             z-index: 1000; /* Ensure it's above other content */
         }
 
@@ -158,8 +158,8 @@
         // Function to close the window
         function closeWindow() {
             window.close(); // Attempt to close the current tab
-            window.open('', '_self').close(); // if above doesnt work, this will run 
-            self.close(); //if above doesnt work, this will run
+            window.open('', '_self').close(); // Attempt to close the tab again
+            // Note: Most browsers will not allow this unless opened by script
         }
     </script>
 </body>
