@@ -3,37 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Command Prompt Website</title>
+    <title>Command Prompt Interface</title>
     <style>
         body {
-            background-color: #1a1a1a; /* Lighter black */
-            color: white;
+            background-color: gray; /* Changed from black to gray */
+            color: blue; /* Changed text color from white to blue */
             font-family: monospace;
-            padding: 20px;
+            padding: 0; /* Removed padding to fit sidebar design */
             margin: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+
+        #container {
+            display: flex;
+        }
+
+        #sidebar {
+            background-color: black;
+            width: 20px; /* Width of sidebars */
+            height: 100vh; /* Full height */
         }
 
         #console {
-            max-width: 800px;
-            margin: 50px auto 0 auto;
+            flex-grow: 1; /* Allow console to take remaining space */
+            margin: 0 20px; /* Margin to respect the sidebars */
+            padding: 20px;
+            overflow-y: auto; /* Allow vertical scrolling */
+            height: calc(100vh - 50px); /* Leave space for the program bar */
+            position: relative; /* Positioning context for absolute elements */
+        }
+
+        #program-bar {
+            background-color: darkgray; /* Background color of program bar */
+            display: flex;
+            justify-content: space-between; /* Space between title and close button */
+            align-items: center; /* Center vertically */
+            padding: 5px 10px;
+            position: fixed; /* Fixed to the top */
+            top: 0; /* Stick to the top */
+            left: 20px; /* Respect the left sidebar */
+            right: 20px; /* Respect the right sidebar */
+            z-index: 1000; /* Ensure it's above other content */
         }
 
         .line {
-            display: flex;
+            display: flex; /* Keep input and command prompt on the same line */
             margin-bottom: 10px;
         }
 
         .line span {
-            color: lightblue; /* Changed from green to blue */
+            color: lightgreen; /* Keep color for command prompt */
         }
 
         .input-field {
-            background-color: #1a1a1a;
-            color: white;
+            background-color: gray; /* Match with body background */
+            color: blue; /* Changed input text color to blue */
             border: none;
             font-family: monospace;
             font-size: 16px;
-            flex-grow: 1;
+            flex-grow: 1; /* Input takes remaining space */
         }
 
         .input-field:focus {
@@ -41,7 +69,7 @@
         }
 
         .output {
-            color: lightgray;
+            color: lightgray; /* Output color */
         }
 
         img {
@@ -51,123 +79,86 @@
             margin-top: 10px;
         }
 
-        /* Top bar styling */
-        #program-bar {
-            background-color: #333;
-            color: white;
-            padding: 10px;
-            font-family: sans-serif;
-            font-size: 14px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 999;
-        }
-
-        #program-bar button {
-            background-color: #ff4040;
+        .close-button {
+            background: none;
             border: none;
-            color: white;
-            padding: 5px 10px;
+            color: red; /* Color of the close button */
+            font-size: 16px;
             cursor: pointer;
-            font-size: 12px;
-        }
-
-        #program-bar button:hover {
-            background-color: #ff2020;
         }
     </style>
 </head>
 <body>
     <div id="program-bar">
-        <span>My Command Prompt Program</span>
-        <button id="close-btn">X</button>
+        <div>Command Prompt Interface</div>
+        <button class="close-button" onclick="closeWindow()">X</button>
     </div>
-
-    <div id="console">
-        <div id="history"></div>
-        <div class="line">
-            <span>></span> <input type="text" id="input" class="input-field" autofocus />
+    <div id="container">
+        <div id="sidebar"></div> <!-- Left Sidebar -->
+        <div id="console">
+            <div id="history"></div>
+            <div class="line">
+                <span>></span> <input type="text" id="input" class="input-field" autofocus />
+            </div>
         </div>
+        <div id="sidebar"></div> <!-- Right Sidebar -->
     </div>
 
     <script>
         const input = document.getElementById('input');
         const history = document.getElementById('history');
-        const closeBtn = document.getElementById('close-btn');
-
-        // Close website when X button is clicked
-        closeBtn.addEventListener('click', function() {
-            window.close(); // Attempt to close the tab or window
-        });
 
         // Function to handle command execution
         function executeCommand(command) {
-            // Display the command typed by the user in the console
             const outputDiv = document.createElement('div');
             outputDiv.classList.add('line');
             outputDiv.innerHTML = `<span>></span> ${command}`;
             history.appendChild(outputDiv);
 
-            // Create a div for the result/output of the command
             const resultDiv = document.createElement('div');
             resultDiv.classList.add('output');
 
-            // Environment variable for hidden commands
-            const hiddenCommands = JSON.parse('[[HIDDEN_COMMANDS]]'); // Replace this with actual environment variable
-
-            // Switch-case for different commands
             switch (command.toLowerCase()) {
                 case 'help':
                     resultDiv.innerHTML = 'Available commands: help, command1, showimage, openwebsite';
                     break;
-
                 case 'command1':
                     resultDiv.innerHTML = 'Command 1 executed.';
                     break;
-
                 case 'showimage':
                     resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
                     break;
-
                 case 'openwebsite':
                     resultDiv.innerHTML = 'Opening subdomain: <a href="https://subdomain.example.com" target="_blank">subdomain.example.com</a>';
-                    window.open('himalawaydictionary.html', '_blank');
+                    window.open('https://subdomain.example.com', '_blank');
                     break;
-
-                // Handle hidden commands
                 default:
-                    if (hiddenCommands.includes(command)) {
-                        resultDiv.innerHTML = `Hidden command executed: ${command}`;
-                    } else {
-                        resultDiv.innerHTML = `Unknown command: ${command}`;
-                    }
+                    resultDiv.innerHTML = `Unknown command: ${command}`;
             }
 
-            // Append the result/output to the history
             history.appendChild(resultDiv);
-            history.scrollTop = history.scrollHeight; // Scroll to the bottom automatically
+            history.scrollTop = history.scrollHeight;  // Scroll to the bottom automatically
         }
 
-        // Event listener for user input
         input.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                const command = input.value.trim(); // Get the typed command
+                const command = input.value.trim();  // Get the typed command
                 if (command) {
-                    executeCommand(command); // Execute the command
-                    input.value = ''; // Clear input field after execution
+                    executeCommand(command);  // Execute the command
+                    input.value = '';  // Clear input field after execution
                 }
             }
         });
 
-        // Focus input on load
         window.onload = () => {
             input.focus();
         };
+
+        // Function to close the window
+        function closeWindow() {
+            document.body.innerHTML = "<h1>Goodbye!</h1><p>The window is closed.</p>";
+            document.body.style.backgroundColor = "gray"; // Set a background color for the goodbye message
+        }
     </script>
 </body>
 </html>
