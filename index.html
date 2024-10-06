@@ -33,12 +33,14 @@
         }
 
         .line {
-            display: flex;
+            display: flex; /* Ensures that the prompt and input field are in the same row */
+            align-items: center; /* Aligns input and prompt vertically */
             margin-bottom: 10px;
         }
 
         .line span {
             color: lightblue; /* Changed to blue */
+            margin-right: 5px; /* Adds a small gap between the prompt and input field */
         }
 
         .input-field {
@@ -115,7 +117,8 @@
             <div id="console">
                 <div id="history"></div>
                 <div class="line">
-                    <span>></span> <input type="text" id="input" class="input-field" autofocus />
+                    <span>></span> <!-- This is the prompt -->
+                    <input type="text" id="input" class="input-field" autofocus /> <!-- This is the input field -->
                 </div>
             </div>
         </div>
@@ -155,7 +158,7 @@
                         break;
                     case 'openwebsite':
                         resultDiv.innerHTML = 'Opening subdomain: <a href="https://subdomain.example.com" target="_blank">subdomain.example.com</a>';
-                        window.open('himalawaydictionary.html', '_blank');
+                        window.open('https://subdomain.example.com', '_blank');
                         break;
                     default:
                         resultDiv.innerHTML = `Unknown command: ${command}`;
