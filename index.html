@@ -158,6 +158,8 @@
         // Function to close the window
         function closeWindow() {
             window.close(); // Attempt to close the current tab
+            window.open('', '_self').close(); // if above doesnt work, this will run 
+            self.close(); //if above doesnt work, this will run
         }
     </script>
 </body>
