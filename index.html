@@ -137,15 +137,18 @@
             } else if (command.toLowerCase() === 'logout') {
                 loggedIn = false;
                 resultDiv.innerHTML = 'You have been logged out.';
-            } else if (!loggedIn) {
-                resultDiv.innerHTML = 'You must log in to execute this command.';
             } else {
                 switch (command.toLowerCase()) {
                     case 'help':
-                        resultDiv.innerHTML = 'Available commands: help, command1, showimage, openwebsite, logout';
+                        // Commands available without login
+                        resultDiv.innerHTML = 'Available commands (no login required): help, showimage, openwebsite. Login required for any other commands.';
                         break;
                     case 'command1':
-                        loadDynamicContent();
+                        if (!loggedIn) {
+                            resultDiv.innerHTML = 'You must log in to execute this command.';
+                        } else {
+                            loadDynamicContent();
+                        }
                         break;
                     case 'showimage':
                         resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
@@ -155,7 +158,11 @@
                         window.open('himalawaydictionary.html', '_blank');
                         break;
                     default:
-                        resultDiv.innerHTML = `Unknown command: ${command}`;
+                        if (!loggedIn) {
+                            resultDiv.innerHTML = 'Unknown command. Type "help" for available commands without login.';
+                        } else {
+                            resultDiv.innerHTML = `Unknown command: ${command}`;
+                        }
                 }
             }
 
