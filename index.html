@@ -6,10 +6,10 @@
     <title>Command Prompt Interface</title>
     <style>
         body {
-            background-color: gray; /* Changed from black to gray */
-            color: blue; /* Changed text color from white to blue */
+            background-color: gray; /* Background color */
+            color: blue; /* Text color */
             font-family: monospace;
-            padding: 0; /* Removed padding to fit sidebar design */
+            padding: 0; /* Removed padding */
             margin: 0;
             overflow-x: hidden; /* Prevent horizontal scroll */
         }
@@ -20,7 +20,7 @@
 
         #sidebar {
             background-color: black;
-            width: 20px; /* Width of sidebars */
+            width: 320px; /* Increased width of sidebars */
             height: 100vh; /* Full height */
         }
 
@@ -41,7 +41,7 @@
             padding: 5px 10px;
             position: fixed; /* Fixed to the top */
             top: 0; /* Stick to the top */
-            left: 20px; /* Respect the left sidebar */
+            left: 320px; /* Respect the left sidebar */
             right: 20px; /* Respect the right sidebar */
             z-index: 1000; /* Ensure it's above other content */
         }
@@ -52,7 +52,7 @@
         }
 
         .line span {
-            color: lightgreen; /* Keep color for command prompt */
+            color: blue; /* Changed color of command prompt arrow to blue */
         }
 
         .input-field {
