@@ -5,25 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Command Prompt Website</title>
     <style>
+        /* Set background color for the entire page */
         body {
             background-color: black;
             color: white;
             font-family: monospace;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Outer container for the black edges */
+        #outer-container {
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Center container with lighter black background */
+        #center-container {
+            background-color: #1a1a1a; /* Lighter black */
             padding: 20px;
+            max-width: 800px;
+            width: 100%;
         }
 
         #console {
-            max-width: 800px;
-            margin: 0 auto;
+            width: 100%;
         }
 
         .line {
-            display: flex; /* Changed from block to flex to align items in the same line */
+            display: flex;
             margin-bottom: 10px;
         }
 
         .line span {
-            color: lightgreen;
+            color: lightblue; /* Changed to blue */
         }
 
         .input-field {
@@ -32,7 +47,7 @@
             border: none;
             font-family: monospace;
             font-size: 16px;
-            flex-grow: 1; /* Ensure the input grows to fit available space */
+            flex-grow: 1;
         }
 
         .input-field:focus {
@@ -50,74 +65,121 @@
             margin-top: 10px;
         }
 
+        /* Program bar styling */
+        #program-bar {
+            background-color: #333333; /* Lighter black */
+            padding: 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+        }
+
+        #program-bar-content {
+            background-color: #1a1a1a; /* Darker black for center */
+            color: white;
+            padding: 5px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        #close-btn {
+            cursor: pointer;
+            color: red;
+            font-weight: bold;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
-    <div id="console">
-        <div id="history"></div>
-        <div class="line">
-            <span>></span> <input type="text" id="input" class="input-field" autofocus />
+    <!-- Program Bar with title and close button -->
+    <div id="program-bar">
+        <div id="program-bar-content">
+            <div>Command Prompt Interface</div>
+            <div id="close-btn">X</div>
+        </div>
+    </div>
+
+    <!-- Outer container with black edges -->
+    <div id="outer-container">
+        <!-- Center container with lighter black background -->
+        <div id="center-container">
+            <div id="console">
+                <div id="history"></div>
+                <div class="line">
+                    <span>></span> <input type="text" id="input" class="input-field" autofocus />
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
         const input = document.getElementById('input');
         const history = document.getElementById('history');
+        const closeBtn = document.getElementById('close-btn');
 
         // Function to handle command execution
         function executeCommand(command) {
-            // Display the command typed by the user in the console
             const outputDiv = document.createElement('div');
             outputDiv.classList.add('line');
             outputDiv.innerHTML = `<span>></span> ${command}`;
             history.appendChild(outputDiv);
 
-            // Create a div for the result/output of the command
             const resultDiv = document.createElement('div');
             resultDiv.classList.add('output');
 
-            // Switch-case for different commands
-            switch (command.toLowerCase()) {
-                case 'help':
-                    // Display a list of commands
-                    resultDiv.innerHTML = 'Available commands: help, command1, showimage, openwebsite';
-                    break;
+            // Hide certain commands based on environment variables (simulated for demo purposes)
+            const secretCommands = ["hiddencommand"];
+            const secretEnv = false;  // Set this value from environment variables if needed
 
-                case 'command1':
-                    // Simple command that shows some text output
-                    resultDiv.innerHTML = 'Command 1 executed.';
-                    break;
-
-                case 'showimage':
-                    // Displays an image in the console
-                    resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
-                    break;
-
-                case 'openwebsite':
-                    // Opens a subdomain or website in a new tab
-                    resultDiv.innerHTML = 'Opening subdomain: <a href="https://subdomain.example.com" target="_blank">subdomain.example.com</a>';
-                    window.open('https://subdomain.example.com', '_blank');
-                    break;
-
-                default:
-                    // If an unknown command is typed
-                    resultDiv.innerHTML = `Unknown command: ${command}`;
+            if (secretCommands.includes(command.toLowerCase()) && !secretEnv) {
+                resultDiv.innerHTML = "Unknown command.";
+            } else {
+                switch (command.toLowerCase()) {
+                    case 'help':
+                        resultDiv.innerHTML = 'Available commands: help, command1, showimage, openwebsite';
+                        break;
+                    case 'command1':
+                        resultDiv.innerHTML = 'Command 1 executed.';
+                        break;
+                    case 'showimage':
+                        resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
+                        break;
+                    case 'openwebsite':
+                        resultDiv.innerHTML = 'Opening subdomain: <a href="https://subdomain.example.com" target="_blank">subdomain.example.com</a>';
+                        window.open('himalawaydictionary.html', '_blank');
+                        break;
+                    default:
+                        resultDiv.innerHTML = `Unknown command: ${command}`;
+                }
             }
 
-            // Append the result/output to the history
             history.appendChild(resultDiv);
-            history.scrollTop = history.scrollHeight;  // Scroll to the bottom automatically
+            history.scrollTop = history.scrollHeight;
         }
 
         // Event listener for user input
         input.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                const command = input.value.trim();  // Get the typed command
+                const command = input.value.trim();
                 if (command) {
-                    executeCommand(command);  // Execute the command
-                    input.value = '';  // Clear input field after execution
+                    executeCommand(command);
+                    input.value = '';
                 }
             }
+        });
+
+        // Event listener to close the website
+        closeBtn.addEventListener('click', function() {
+            window.close();  // Close the browser tab (may be blocked by some browsers)
         });
 
         // Focus input on load
