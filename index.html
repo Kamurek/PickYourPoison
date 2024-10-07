@@ -115,6 +115,110 @@
         const validPassword = 'yourPassword';  // Replace with desired password
         let loggedIn = false;
 
+        // Command structure
+        const commands = {
+            help: {
+                execute: () => 'Available commands (no login required): help, showimage1, showimage2, showimage3, openwebsite1, openwebsite2, openwebsite3, textshow1, textshow2, textshow3, imagecombo1, imagecombo2, imagecombo3. Login required for commands that delete content.',
+                viewRegardlessOfLogin: true
+            },
+            openwebsite1: {
+                execute: () => {
+                    window.open('https://example.com', '_blank');
+                    return 'Opening website: https://example.com';
+                },
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            openwebsite2: {
+                execute: () => {
+                    window.open('https://openai.com', '_blank');
+                    return 'Opening website: https://openai.com';
+                },
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            openwebsite3: {
+                execute: () => {
+                    window.open('https://github.com', '_blank');
+                    return 'Opening website: https://github.com';
+                },
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            showimage1: {
+                execute: () => 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image 1">',
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            showimage2: {
+                execute: () => 'Displaying image:<br><img src="https://via.placeholder.com/200" alt="Sample Image 2">',
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            showimage3: {
+                execute: () => 'Displaying image:<br><img src="https://via.placeholder.com/250" alt="Sample Image 3">',
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            textshow1: {
+                execute: () => 'This is text message 1.',
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            textshow2: {
+                execute: () => 'This is text message 2.',
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            textshow3: {
+                execute: () => 'This is text message 3.',
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            imagecombo1: {
+                execute: () => {
+                    return 'This is a combo of text and image:<br><img src="https://via.placeholder.com/300" alt="Image Combo 1"><br>Text for image combo 1.';
+                },
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            imagecombo2: {
+                execute: () => {
+                    return 'This is a combo of text and image:<br><img src="https://via.placeholder.com/350" alt="Image Combo 2"><br>Text for image combo 2.';
+                },
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            imagecombo3: {
+                execute: () => {
+                    return 'This is a combo of text and image:<br><img src="https://via.placeholder.com/400" alt="Image Combo 3"><br>Text for image combo 3.';
+                },
+                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+            },
+            deleteall: {
+                execute: () => {
+                    document.body.innerHTML = '<h1>All content deleted!</h1>';
+                    return 'All content deleted!';
+                },
+                viewRegardlessOfLogin: false
+            },
+            clearconsole: {
+                execute: () => {
+                    history.innerHTML = '';
+                    return 'Console cleared!';
+                },
+                viewRegardlessOfLogin: false
+            },
+            removecmdinput: {
+                execute: () => {
+                    const cmdInput = document.getElementById('input');
+                    cmdInput.parentNode.removeChild(cmdInput);
+                    return 'Input command line removed!';
+                },
+                viewRegardlessOfLogin: false
+            },
+            login: {
+                execute: displayLoginPrompt,
+                viewRegardlessOfLogin: true
+            },
+            logout: {
+                execute: () => {
+                    loggedIn = false;
+                    return 'You have been logged out.';
+                },
+                viewRegardlessOfLogin: false
+            }
+        };
+
         function displayPrompt(message) {
             const outputDiv = document.createElement('div');
             outputDiv.classList.add('output');
@@ -132,53 +236,22 @@
             const resultDiv = document.createElement('div');
             resultDiv.classList.add('output');
 
-            if (command.toLowerCase() === 'login') {
-                displayLoginPrompt();
-            } else if (command.toLowerCase() === 'logout') {
-                loggedIn = false;
-                resultDiv.innerHTML = 'You have been logged out.';
-            } else {
-                switch (command.toLowerCase()) {
-                    case 'help':
-                        // Commands available without login
-                        resultDiv.innerHTML = 'Available commands (no login required): help, showimage, openwebsite. Login required for any other commands.';
-                        break;
-                    case 'command1':
-                        if (!loggedIn) {
-                            resultDiv.innerHTML = 'You must log in to execute this command.';
-                        } else {
-                            loadDynamicContent();
-                        }
-                        break;
-                    case 'showimage':
-                        resultDiv.innerHTML = 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image">';
-                        break;
-                    case 'openwebsite':
-                        resultDiv.innerHTML = 'Opening subdomain: <a href="himalawaydictionary.html" target="_blank">himalawaydictionary.html</a>';
-                        window.open('himalawaydictionary.html', '_blank');
-                        break;
-                    default:
-                        if (!loggedIn) {
-                            resultDiv.innerHTML = 'Unknown command. Type "help" for available commands without login.';
-                        } else {
-                            resultDiv.innerHTML = `Unknown command: ${command}`;
-                        }
+            // Check if command exists
+            const commandObj = commands[command.toLowerCase()];
+
+            if (commandObj) {
+                // Check if login is required for this command
+                if (commandObj.viewRegardlessOfLogin || loggedIn) {
+                    resultDiv.innerHTML = commandObj.execute(); // Execute command
+                } else {
+                    resultDiv.innerHTML = 'You must log in to execute this command.';
                 }
+            } else {
+                resultDiv.innerHTML = 'Unknown command. Type "help" for available commands.';
             }
 
             history.appendChild(resultDiv);
             history.scrollTop = history.scrollHeight;
-        }
-
-        function loadDynamicContent() {
-            const dynamicContentDiv = document.createElement('div');
-            dynamicContentDiv.classList.add('output');
-            dynamicContentDiv.innerHTML = `
-                <h3>Dynamic Content Loaded!</h3>
-                <p>This content was loaded because you typed <strong>command1</strong>.</p>
-                <img src="https://via.placeholder.com/150" alt="Dynamic Image">
-            `;
-            history.appendChild(dynamicContentDiv);
         }
 
         function validateCredentials(username, password) {
@@ -201,13 +274,13 @@
                 const command = input.value.trim();
                 if (command) {
                     executeCommand(command);
-                    input.value = '';
+                    input.value = ''; // Clear input field after execution
                 }
             }
         });
 
         window.onload = () => input.focus();
-        
+
         function closeWindow() {
             window.open('', '_self', ''); // Target current window
             window.close(); // Attempt to close the window
