@@ -33,6 +33,12 @@
             position: relative;
         }
 
+        #history {
+            max-height: 80vh; /* Limit the height of history to avoid resizing */
+            overflow-y: auto; /* Allow scrolling */
+            margin-bottom: 20px; /* Space between history and input */
+        }
+
         #program-bar {
             background-color: darkgray;
             display: flex;
@@ -50,7 +56,7 @@
         .line {
             display: flex;
             margin-bottom: 10px;
-            margin-top: 40px;
+            margin-top: 10px; /* Adjust for spacing */
         }
 
         .line span {
@@ -138,11 +144,38 @@
             }
         }
 
-        // Command structure (as before)
+        // Command structure
         const commands = {
             help: {
-                execute: () => 'Available commands: help, openwebsite1, openwebsite2, openwebsite3, showimage1, showimage2, showimage3, textshow1, textshow2, textshow3, imagecombo1, imagecombo2, imagecombo3.',
+                execute: () => {
+                    if (loggedIn) {
+                        return 'Available commands: help, logout, openwebsite1, openwebsite2, openwebsite3, showimage1, showimage2, showimage3, textshow1, textshow2, textshow3, imagecombo1, imagecombo2, imagecombo3, deleteall, clearconsole, removecmdinput.';
+                    } else {
+                        return 'Available commands (no login required): help, openwebsite1, openwebsite2, openwebsite3, showimage1, showimage2, showimage3, textshow1, textshow2, textshow3, imagecombo1, imagecombo2, imagecombo3, login.';
+                    }
+                },
                 viewRegardlessOfLogin: true
+            },
+            login: {
+                execute: () => {
+                    if (loggedIn) {
+                        return 'You are already logged in.';
+                    }
+                    if (ipAddress === authorizedIP) {
+                        loggedIn = true;
+                        return 'Login successful.';
+                    } else {
+                        return 'Login failed. Your IP does not match the authorized IP.';
+                    }
+                },
+                viewRegardlessOfLogin: true
+            },
+            logout: {
+                execute: () => {
+                    loggedIn = false;
+                    return 'You have been logged out.';
+                },
+                viewRegardlessOfLogin: false
             },
             openwebsite1: {
                 execute: () => {
@@ -241,17 +274,6 @@
                 },
                 viewRegardlessOfLogin: false
             },
-            login: {
-                execute: () => 'You are already logged in via IP authorization.',
-                viewRegardlessOfLogin: true
-            },
-            logout: {
-                execute: () => {
-                    loggedIn = false;
-                    return 'You have been logged out.';
-                },
-                viewRegardlessOfLogin: false
-            }
         };
 
         function displayPrompt(message) {
