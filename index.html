@@ -12,34 +12,33 @@
             font-family: monospace;
             padding: 0;
             margin: 0;
-            overflow: hidden; /* Prevent body from resizing */
-            height: 100vh; /* Fixed height for body */
+            overflow-x: hidden;
         }
 
         #container {
             display: flex;
-            height: 100%; /* Make sure container takes full height */
         }
 
         #sidebar {
             background-color: black;
             width: 320px;
-            height: 100vh; /* Full height for the sidebar */
+            height: 100vh;
         }
 
         #console {
             flex-grow: 1;
             margin: 0 20px;
             padding: 20px;
-            overflow: hidden; /* Prevent vertical scrolling of console */
-            height: calc(100vh - 50px); /* Calculate based on the program bar */
+            overflow-y: hidden; /* Prevent vertical scrolling */
+            height: calc(100vh - 50px);
             display: flex;
-            flex-direction: column; /* Stack history and input */
+            flex-direction: column; /* Stack the history and input */
         }
 
         #history {
-            flex-grow: 1; /* Allow the history to grow */
+            max-height: 80vh; /* Limit the height of the history */
             overflow-y: auto; /* Allow vertical scrolling */
+            overflow-x: hidden; /* Prevent horizontal scrolling */
             margin-bottom: 20px; /* Space between history and input */
         }
 
@@ -52,7 +51,7 @@
             position: fixed;
             top: 0;
             left: 320px;
-            right: 20px; /* Adjust accordingly */
+            right: 320px;
             height: 30px;
             z-index: 1000;
         }
@@ -61,7 +60,7 @@
             display: flex;
             margin-bottom: 10px;
             margin-top: 10px; /* Adjust for spacing */
-            white-space: normal; /* Allow line wrapping */
+            white-space: nowrap; /* Prevent line wrapping */
         }
 
         .line span {
@@ -325,7 +324,7 @@
         function closeWindow() {
             window.open('', '_self', ''); // Target current window
             window.close(); // Attempt to close the window
-            //alert('CloseWindow function doesn\'t work in your scenario, RIPXD sorry');
+            alert('CloseWindow function doesn\'t work in your scenario, RIPXD sorry');
         }
     </script>
 </body>
