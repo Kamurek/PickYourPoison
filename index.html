@@ -110,15 +110,38 @@
     <script>
         const input = document.getElementById('input');
         const history = document.getElementById('history');
-
-        const validUsername = 'yourUsername';  // Replace with desired username
-        const validPassword = 'yourPassword';  // Replace with desired password
+        let ipAddress = '';
         let loggedIn = false;
 
-        // Command structure
+        // Set your allowed IP address here
+        const authorizedIP = '176.221.124.123'; // Replace with your actual IP
+
+        // Fetch the user's IP address
+        async function fetchUserIP() {
+            try {
+                const response = await fetch('https://api.ipify.org?format=json');
+                const data = await response.json();
+                ipAddress = data.ip;
+                checkAuthorization();
+            } catch (error) {
+                console.error('Error fetching IP address:', error);
+                displayPrompt("Unable to retrieve IP address.");
+            }
+        }
+
+        function checkAuthorization() {
+            if (ipAddress === authorizedIP) {
+                loggedIn = true;
+                displayPrompt('Authorization successful. You have access to all commands.');
+            } else {
+                displayPrompt('Authorization failed. You have limited access. Please contact support.');
+            }
+        }
+
+        // Command structure (as before)
         const commands = {
             help: {
-                execute: () => 'Available commands (no login required): help, showimage1, showimage2, showimage3, openwebsite1, openwebsite2, openwebsite3, textshow1, textshow2, textshow3, imagecombo1, imagecombo2, imagecombo3. Login required for commands that delete content.',
+                execute: () => 'Available commands: help, openwebsite1, openwebsite2, openwebsite3, showimage1, showimage2, showimage3, textshow1, textshow2, textshow3, imagecombo1, imagecombo2, imagecombo3.',
                 viewRegardlessOfLogin: true
             },
             openwebsite1: {
@@ -126,88 +149,100 @@
                     window.open('https://example.com', '_blank');
                     return 'Opening website: https://example.com';
                 },
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             openwebsite2: {
                 execute: () => {
                     window.open('https://openai.com', '_blank');
                     return 'Opening website: https://openai.com';
                 },
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             openwebsite3: {
                 execute: () => {
                     window.open('https://github.com', '_blank');
                     return 'Opening website: https://github.com';
                 },
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             showimage1: {
                 execute: () => 'Displaying image:<br><img src="https://via.placeholder.com/150" alt="Sample Image 1">',
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             showimage2: {
                 execute: () => 'Displaying image:<br><img src="https://via.placeholder.com/200" alt="Sample Image 2">',
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             showimage3: {
                 execute: () => 'Displaying image:<br><img src="https://via.placeholder.com/250" alt="Sample Image 3">',
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             textshow1: {
                 execute: () => 'This is text message 1.',
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             textshow2: {
                 execute: () => 'This is text message 2.',
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             textshow3: {
                 execute: () => 'This is text message 3.',
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             imagecombo1: {
                 execute: () => {
                     return 'This is a combo of text and image:<br><img src="https://via.placeholder.com/300" alt="Image Combo 1"><br>Text for image combo 1.';
                 },
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             imagecombo2: {
                 execute: () => {
                     return 'This is a combo of text and image:<br><img src="https://via.placeholder.com/350" alt="Image Combo 2"><br>Text for image combo 2.';
                 },
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             imagecombo3: {
                 execute: () => {
                     return 'This is a combo of text and image:<br><img src="https://via.placeholder.com/400" alt="Image Combo 3"><br>Text for image combo 3.';
                 },
-                viewRegardlessOfLogin: Math.random() < 0.5 // Randomly assign
+                viewRegardlessOfLogin: true
             },
             deleteall: {
                 execute: () => {
-                    document.body.innerHTML = '<h1>All content deleted!</h1>';
-                    return 'All content deleted!';
+                    if (loggedIn) {
+                        document.body.innerHTML = '<h1>All content deleted!</h1>';
+                        return 'All content deleted!';
+                    } else {
+                        return 'You do not have permission to delete content.';
+                    }
                 },
                 viewRegardlessOfLogin: false
             },
             clearconsole: {
                 execute: () => {
-                    history.innerHTML = '';
-                    return 'Console cleared!';
+                    if (loggedIn) {
+                        history.innerHTML = '';
+                        return 'Console cleared!';
+                    } else {
+                        return 'You do not have permission to clear the console.';
+                    }
                 },
                 viewRegardlessOfLogin: false
             },
             removecmdinput: {
                 execute: () => {
-                    const cmdInput = document.getElementById('input');
-                    cmdInput.parentNode.removeChild(cmdInput);
-                    return 'Input command line removed!';
+                    if (loggedIn) {
+                        const cmdInput = document.getElementById('input');
+                        cmdInput.parentNode.removeChild(cmdInput);
+                        return 'Input command line removed!';
+                    } else {
+                        return 'You do not have permission to remove the command input.';
+                    }
                 },
                 viewRegardlessOfLogin: false
             },
             login: {
-                execute: displayLoginPrompt,
+                execute: () => 'You are already logged in via IP authorization.',
                 viewRegardlessOfLogin: true
             },
             logout: {
@@ -244,7 +279,7 @@
                 if (commandObj.viewRegardlessOfLogin || loggedIn) {
                     resultDiv.innerHTML = commandObj.execute(); // Execute command
                 } else {
-                    resultDiv.innerHTML = 'You must log in to execute this command.';
+                    resultDiv.innerHTML = 'You do not have permission to execute this command.';
                 }
             } else {
                 resultDiv.innerHTML = 'Unknown command. Type "help" for available commands.';
@@ -252,21 +287,6 @@
 
             history.appendChild(resultDiv);
             history.scrollTop = history.scrollHeight;
-        }
-
-        function validateCredentials(username, password) {
-            if (username === validUsername && password === validPassword) {
-                loggedIn = true;
-                displayPrompt('Login successful. You can now use commands.');
-            } else {
-                displayPrompt('Invalid username or password.');
-            }
-        }
-
-        function displayLoginPrompt() {
-            const username = prompt('Username:');
-            const password = prompt('Password:');
-            validateCredentials(username, password);
         }
 
         input.addEventListener('keydown', function(event) {
@@ -279,7 +299,10 @@
             }
         });
 
-        window.onload = () => input.focus();
+        window.onload = () => {
+            fetchUserIP(); // Fetch IP when the window loads
+            input.focus();
+        };
 
         function closeWindow() {
             window.open('', '_self', ''); // Target current window
