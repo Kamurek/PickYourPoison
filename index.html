@@ -63,19 +63,24 @@
             overflow: hidden; /* Hide overflowing text */
         }
 
-        .line span {
-            color: blue;
+        .line {
+            display: flex;
+            width: 100%; /* Ensure line spans full width of parent container */
+            white-space: nowrap; /* Prevent text wrapping */
+            min-width: 0; /* Prevent flex item from growing unnecessarily */
         }
-
-       .input-field {
+        
+        .input-field {
             background-color: gray;
             color: blue;
             border: none;
             font-family: monospace;
             font-size: 16px;
             flex-grow: 1;
-            max-width: 100%; /* Limit the input field width to the parent container */
-            word-wrap: break-word; /* Ensure long text wraps within the input field */
+            max-width: 100%; /* Ensure input field doesn't stretch beyond the parent */
+            overflow: hidden; /* Prevent text from overflowing */
+            text-overflow: ellipsis; /* Add ellipsis for overflowing text */
+            white-space: nowrap; /* Prevent text wrapping */
         }
 
         .input-field:focus {
