@@ -25,24 +25,23 @@
             height: 100vh;
         }
 
-        #console {
-            flex-grow: 1;
+       #console {
+            height: calc(100vh - 50px); /* Full height minus program bar */
+            overflow: hidden; /* Prevent overflow from stretching */
+            padding: 0;
             margin: 0 20px;
-            padding: 20px;
-            overflow-y: hidden; /* Prevent vertical scrolling */
-            height: calc(100vh - 50px);
-            display: flex;
-            flex-direction: column; /* Stack the history and input */
+            box-sizing: border-box;
         }
 
         #history {
-            max-height: 80vh; /* Limit height to prevent stretching */
-            overflow-y: auto; /* Allow vertical scrolling */
-            word-wrap: break-word; /* Ensure long words break within the container */
-            white-space: pre-wrap; /* Preserve spaces and line breaks, while allowing wrapping */
-            overflow-wrap: anywhere; /* Ensure text breaks anywhere if needed */
-            margin-bottom: 20px; /* Space between history and input */
-        }
+    max-height: 100%; /* Prevent history from expanding beyond container */
+    overflow-y: auto; /* Enable vertical scrolling */
+    word-wrap: break-word; /* Ensure long words wrap */
+    white-space: pre-wrap; /* Preserve formatting and allow wrapping */
+    overflow-wrap: break-word; /* Handle long words */
+    padding: 20px;
+    box-sizing: border-box;
+}
 
         #program-bar {
             background-color: darkgray;
@@ -58,12 +57,11 @@
             z-index: 1000;
         }
 
-        #line {
-            width: 100%; /* Make the command line span the width of the parent container */
-            display: flex;
-            white-space: nowrap; /* Prevent wrapping inside the span for the prompt */
-            overflow: hidden; /* Hide overflowing text */
-        }
+       .line {
+    width: 100%; /* Full width of the console */
+    white-space: pre-wrap; /* Ensure lines wrap */
+    word-wrap: break-word; /* Wrap long words */
+}
 
         .line {
             display: flex;
