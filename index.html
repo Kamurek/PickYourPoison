@@ -56,24 +56,26 @@
             z-index: 1000;
         }
 
-        .line {
+        #line {
+            width: 100%; /* Make the command line span the width of the parent container */
             display: flex;
-            margin-bottom: 10px;
-            margin-top: 10px; /* Adjust for spacing */
-            white-space: nowrap; /* Prevent line wrapping */
+            white-space: nowrap; /* Prevent wrapping inside the span for the prompt */
+            overflow: hidden; /* Hide overflowing text */
         }
 
         .line span {
             color: blue;
         }
 
-        .input-field {
+       .input-field {
             background-color: gray;
             color: blue;
             border: none;
             font-family: monospace;
             font-size: 16px;
             flex-grow: 1;
+            max-width: 100%; /* Limit the input field width to the parent container */
+            word-wrap: break-word; /* Ensure long text wraps within the input field */
         }
 
         .input-field:focus {
