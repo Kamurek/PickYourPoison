@@ -3,105 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fictional Language Dictionary</title>
+    <title>Dictionary</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
-            padding: 20px;
-            background-color: #f4f4f4;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-
-        h1 {
+        header {
+            margin: 20px;
             text-align: center;
         }
-
         .alphabet {
-            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
             margin-bottom: 20px;
         }
-
         .alphabet a {
             padding: 10px;
-            font-size: 20px;
-            color: #007BFF;
             text-decoration: none;
-        }
-
-        .alphabet a:hover {
-            text-decoration: underline;
-        }
-
-        .word-list {
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .word-list h2 {
-            margin-top: 30px;
-            font-size: 24px;
-        }
-
-        .word-list p {
             font-size: 18px;
-            padding: 5px;
+            color: #007bff;
+            border: 1px solid #007bff;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .alphabet a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        section {
+            max-width: 600px;
+            width: 100%;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+        h2 {
+            background-color: #007bff;
+            color: white;
+            padding: 10px;
+            margin: 0;
+            border-radius: 5px;
+        }
+        .word-list {
+            padding: 10px;
+            list-style: none;
         }
     </style>
 </head>
 <body>
 
-    <h1>Fictional Language Dictionary</h1>
+<header>
+    <h1>Online Dictionary</h1>
+</header>
 
-    <div class="alphabet">
-        <a href="#A">A</a>
-        <a href="#B">B</a>
-        <a href="#C">C</a>
-        <a href="#D">D</a>
-        <!-- Add more letters as needed -->
-        <a href="#Z">Z</a>
-    </div>
+<!-- Alphabet Links -->
+<div class="alphabet">
+    <!-- Loop through A-Z and create links -->
+    <a href="#A">A</a>
+    <a href="#B">B</a>
+    <a href="#C">C</a>
+    <a href="#D">D</a>
+    <a href="#E">E</a>
+    <a href="#F">F</a>
+    <a href="#G">G</a>
+    <a href="#H">H</a>
+    <a href="#I">I</a>
+    <a href="#J">J</a>
+    <a href="#K">K</a>
+    <a href="#L">L</a>
+    <a href="#M">M</a>
+    <a href="#N">N</a>
+    <a href="#O">O</a>
+    <a href="#P">P</a>
+    <a href="#Q">Q</a>
+    <a href="#R">R</a>
+    <a href="#S">S</a>
+    <a href="#T">T</a>
+    <a href="#U">U</a>
+    <a href="#V">V</a>
+    <a href="#W">W</a>
+    <a href="#X">X</a>
+    <a href="#Y">Y</a>
+    <a href="#Z">Z</a>
+</div>
 
-    <div id="dictionary" class="word-list"></div>
+<!-- Dictionary Sections -->
+<section id="A">
+    <h2>A</h2>
+    <ul class="word-list">
+        <li>Apple - A fruit</li>
+        <li>Ant - A small insect</li>
+        <!-- Add more words starting with A here -->
+    </ul>
+</section>
 
-    <script>
-        // List of words and their equivalents
-        const words = [
-            { english: "Apple", fictional: "FictAp" },
-            { english: "Banana", fictional: "FictBn" },
-            { english: "Cat", fictional: "FictCt" },
-            { english: "Dog", fictional: "FictDg" },
-            { english: "Ant", fictional: "FictAt" },
-            // Add more words as needed
-        ];
+<section id="B">
+    <h2>B</h2>
+    <ul class="word-list">
+        <li>Banana - A yellow fruit</li>
+        <li>Ball - A round object used in games</li>
+        <!-- Add more words starting with B here -->
+    </ul>
+</section>
 
-        // Sort the words alphabetically by English word
-        words.sort((a, b) => a.english.localeCompare(b.english));
+<!-- Continue for other letters -->
+<section id="C">
+    <h2>C</h2>
+    <ul class="word-list">
+        <li>Cat - A small domesticated animal</li>
+        <li>Car - A four-wheeled vehicle</li>
+        <!-- Add more words starting with C here -->
+    </ul>
+</section>
 
-        const dictionaryDiv = document.getElementById('dictionary');
-        let currentLetter = '';
+<!-- Repeat sections for D through Z as needed -->
+<!-- For brevity, this template stops here, but you can add more sections -->
 
-        words.forEach(word => {
-            const firstLetter = word.english[0].toUpperCase();
-
-            // Create a new section if the first letter changes
-            if (firstLetter !== currentLetter) {
-                currentLetter = firstLetter;
-
-                const sectionTitle = document.createElement('h2');
-                sectionTitle.id = currentLetter; // For navigation to this letter
-                sectionTitle.textContent = currentLetter;
-                dictionaryDiv.appendChild(sectionTitle);
-            }
-
-            // Create word entry
-            const wordEntry = document.createElement('p');
-            wordEntry.textContent = `${word.english} - ${word.fictional}`;
-            dictionaryDiv.appendChild(wordEntry);
-        });
-    </script>
 </body>
 </html>
