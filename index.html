@@ -29,26 +29,19 @@
             padding: 10px;
             text-decoration: none;
             font-size: 18px;
-            color: #ff8800; /* Orange text */
-            border: 1px solid #ff8800; /* Orange border */
+            border: 1px solid;
             border-radius: 5px;
             transition: background-color 0.3s, color 0.3s;
-        }
-        .alphabet a:hover {
-            background-color: #ff8800; /* Orange background on hover */
-            color: #333; /* Dark gray text on hover */
         }
         section {
             max-width: 600px;
             width: 100%;
             margin-bottom: 20px;
             padding: 10px;
-            background-color: #444; /* Medium gray background for sections */
+            background-color: #444; /* Placeholder color, to be set by JS */
             border-radius: 5px;
         }
         h2 {
-            background-color: #ff8800; /* Orange background for headers */
-            color: #333; /* Dark gray text for headers */
             padding: 10px;
             margin: 0;
             border-radius: 5px;
@@ -68,7 +61,6 @@
 
 <!-- Alphabet Links -->
 <div class="alphabet">
-    <!-- Loop through A-Z and create links -->
     <a href="#A">A</a>
     <a href="#B">B</a>
     <a href="#C">C</a>
@@ -103,7 +95,6 @@
     <ul class="word-list">
         <li>Apple - A fruit</li>
         <li>Ant - A small insect</li>
-        <!-- Add more words starting with A here -->
     </ul>
 </section>
 
@@ -112,21 +103,43 @@
     <ul class="word-list">
         <li>Banana - A yellow fruit</li>
         <li>Ball - A round object used in games</li>
-        <!-- Add more words starting with B here -->
     </ul>
 </section>
 
-<!-- Continue for other letters -->
 <section id="C">
     <h2>C</h2>
     <ul class="word-list">
         <li>Cat - A small domesticated animal</li>
         <li>Car - A four-wheeled vehicle</li>
-        <!-- Add more words starting with C here -->
     </ul>
 </section>
 
-<!-- Repeat sections for D through Z as needed -->
+<!-- More sections can be added -->
+
+<script>
+    // Function to generate a random color
+    function getRandomColor() {
+        return '#' + Math.floor(Math.random() * 16777215).toString(16).padStart(6, '0');
+    }
+
+    // Set colors on page load
+    window.onload = function() {
+        const primaryColor = getRandomColor();
+        const secondaryColor = getRandomColor();
+
+        // Apply primary color to links and borders
+        document.querySelectorAll('.alphabet a').forEach(link => {
+            link.style.color = primaryColor;
+            link.style.borderColor = primaryColor;
+        });
+
+        // Apply secondary color to section headers and background
+        document.querySelectorAll('section').forEach(section => {
+            section.querySelector('h2').style.backgroundColor = primaryColor;
+            section.style.backgroundColor = secondaryColor;
+        });
+    };
+</script>
 
 </body>
 </html>
