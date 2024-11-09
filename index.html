@@ -7,13 +7,12 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #333; /* Dark gray background */
-            color: #ccc; /* Light gray text */
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            color: #ccc; /* Light gray text */
         }
         header {
             margin: 20px;
@@ -38,7 +37,7 @@
             width: 100%;
             margin-bottom: 20px;
             padding: 10px;
-            background-color: #444; /* Placeholder color, to be set by JS */
+            background-color: #444; /* Medium gray background for sections */
             border-radius: 5px;
         }
         h2 {
@@ -125,19 +124,19 @@
     // Set colors on page load
     window.onload = function() {
         const primaryColor = getRandomColor();
-        const secondaryColor = getRandomColor();
+        const backgroundColor = getRandomColor();
 
-        // Apply primary color to links and borders
+        // Apply primary color to links and headers
         document.querySelectorAll('.alphabet a').forEach(link => {
             link.style.color = primaryColor;
             link.style.borderColor = primaryColor;
         });
-
-        // Apply secondary color to section headers and background
-        document.querySelectorAll('section').forEach(section => {
-            section.querySelector('h2').style.backgroundColor = primaryColor;
-            section.style.backgroundColor = secondaryColor;
+        document.querySelectorAll('section h2').forEach(header => {
+            header.style.backgroundColor = primaryColor;
         });
+
+        // Apply background color to the whole page
+        document.body.style.backgroundColor = backgroundColor;
     };
 </script>
 
