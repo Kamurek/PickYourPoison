@@ -68,61 +68,91 @@
 </header>
 
 <!-- Alphabet Links -->
-<div class="alphabet">
-    <a href="#A">A</a>
-    <a href="#B">B</a>
-    <a href="#C">C</a>
-    <a href="#D">D</a>
-    <a href="#E">E</a>
-    <a href="#F">F</a>
-    <a href="#G">G</a>
-    <a href="#H">H</a>
-    <a href="#I">I</a>
-    <a href="#J">J</a>
-    <a href="#K">K</a>
-    <a href="#L">L</a>
-    <a href="#M">M</a>
-    <a href="#N">N</a>
-    <a href="#O">O</a>
-    <a href="#P">P</a>
-    <a href="#Q">Q</a>
-    <a href="#R">R</a>
-    <a href="#S">S</a>
-    <a href="#T">T</a>
-    <a href="#U">U</a>
-    <a href="#V">V</a>
-    <a href="#W">W</a>
-    <a href="#X">X</a>
-    <a href="#Y">Y</a>
-    <a href="#Z">Z</a>
+<div class="alphabet" id="alphabet-links">
+    <!-- Alphabet links will be generated dynamically by JavaScript -->
 </div>
 
 <!-- Dictionary Sections -->
-<section id="A">
-    <h2>A</h2>
-    <ul class="word-list">
-        <li>Apple - A fruit</li>
-        <li>Ant - A small insect</li>
-    </ul>
-</section>
+<div id="dictionary-sections">
+    <!-- Sections will be populated dynamically by JavaScript -->
+</div>
 
-<section id="B">
-    <h2>B</h2>
-    <ul class="word-list">
-        <li>Banana - A yellow fruit</li>
-        <li>Ball - A round object used in games</li>
-    </ul>
-</section>
+<script>
+    // The list of words and definitions
+    const words = [
+        { word: "Apple", definition: "A fruit" },
+        { word: "Ant", definition: "A small insect" },
+        { word: "Banana", definition: "A yellow fruit" },
+        { word: "Ball", definition: "A round object used in games" },
+        { word: "Cat", definition: "A small domesticated animal" },
+        { word: "Car", definition: "A four-wheeled vehicle" },
+        { word: "Dog", definition: "A domesticated carnivorous mammal" },
+        { word: "Duck", definition: "A waterfowl with webbed feet" }
+    ];
 
-<section id="C">
-    <h2>C</h2>
-    <ul class="word-list">
-        <li>Cat - A small domesticated animal</li>
-        <li>Car - A four-wheeled vehicle</li>
-    </ul>
-</section>
+    // Function to group words by their first letter
+    function groupWordsByLetter(words) {
+        const grouped = {};
 
-<!-- More sections can be added -->
+        // Group words by their first letter
+        words.forEach(({ word, definition }) => {
+            const firstLetter = word[0].toUpperCase();
+            if (!grouped[firstLetter]) {
+                grouped[firstLetter] = [];
+            }
+            grouped[firstLetter].push({ word, definition });
+        });
+
+        return grouped;
+    }
+
+    // Function to create alphabet links
+    function createAlphabetLinks() {
+        const alphabetContainer = document.getElementById("alphabet-links");
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+
+        // Create the links for each letter of the alphabet
+        letters.forEach(letter => {
+            const link = document.createElement("a");
+            link.href = `#${letter}`;
+            link.textContent = letter;
+            alphabetContainer.appendChild(link);
+        });
+    }
+
+    // Function to create dictionary sections dynamically
+    function createDictionarySections(groupedWords) {
+        const sectionsContainer = document.getElementById("dictionary-sections");
+
+        // Iterate over each grouped letter and create a section
+        Object.keys(groupedWords).sort().forEach(letter => {
+            const section = document.createElement("section");
+            section.id = letter;
+
+            const header = document.createElement("h2");
+            header.textContent = letter;
+            section.appendChild(header);
+
+            const wordList = document.createElement("ul");
+            wordList.classList.add("word-list");
+
+            // Add each word and definition to the list
+            groupedWords[letter].sort((a, b) => a.word.localeCompare(b.word)).forEach(({ word, definition }) => {
+                const listItem = document.createElement("li");
+                listItem.textContent = `${word} - ${definition}`;
+                wordList.appendChild(listItem);
+            });
+
+            section.appendChild(wordList);
+            sectionsContainer.appendChild(section);
+        });
+    }
+
+    // Main execution
+    const groupedWords = groupWordsByLetter(words);
+    createAlphabetLinks();
+    createDictionarySections(groupedWords);
+</script>
 
 </body>
 </html>
