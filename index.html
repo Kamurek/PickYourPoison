@@ -60,20 +60,7 @@
             color: #ccc;
         }
 
-        /* Button styling */
-        #scrollTopBtn {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 10px 20px;
-            font-size: 16px;
-            color: white;
-            background-color: #333;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            display: none; /* Hidden by default */
-        }
+    
     </style>
 </head>
 <body>
@@ -280,22 +267,14 @@
     createDictionarySections(groupedWords);
 </script>
 
-
-
-<div style="height: 2000px;">
-    Scroll down to see the fixed button.
-</div>
-<!-- Scroll-to-Top Button -->
-<button id="scrollTopBtn" onclick="scrollToTop()">Top</button>
-
 <script>
-    // Scroll-to-top function
-    function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
+    // Event listener for key press
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 't' || event.key === 'T') { // Check for "T" key
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    });
 </script>
-
-
 
 </body>
 <header>
