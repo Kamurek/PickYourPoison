@@ -79,7 +79,7 @@
 
 <script>
     // The list of words and definitions
-    const words = [
+   const words = [
         { word: "mortar", definition: "tsar" },
         { word: "homing", definition: "namiez" },
         { word: "rocket", definition: "rakiet" },
@@ -200,12 +200,9 @@
         { word: "ΩTESTTEST", definition: "ΩTEST" },
         
     ];
-
     // Function to group words by their first letter
     function groupWordsByLetter(words) {
         const grouped = {};
-
-        // Group words by their first letter
         words.forEach(({ word, definition }) => {
             const firstLetter = word[0].toUpperCase();
             if (!grouped[firstLetter]) {
@@ -213,7 +210,6 @@
             }
             grouped[firstLetter].push({ word, definition });
         });
-
         return grouped;
     }
 
@@ -221,8 +217,6 @@
     function createAlphabetLinks() {
         const alphabetContainer = document.getElementById("alphabet-links");
         const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-
-        // Create the links for each letter of the alphabet
         letters.forEach(letter => {
             const link = document.createElement("a");
             link.href = `#${letter}`;
@@ -234,8 +228,6 @@
     // Function to create dictionary sections dynamically
     function createDictionarySections(groupedWords) {
         const sectionsContainer = document.getElementById("dictionary-sections");
-
-        // Iterate over each grouped letter and create a section
         Object.keys(groupedWords).sort().forEach(letter => {
             const section = document.createElement("section");
             section.id = letter;
@@ -247,7 +239,6 @@
             const wordList = document.createElement("ul");
             wordList.classList.add("word-list");
 
-            // Add each word and definition to the list
             groupedWords[letter].sort((a, b) => a.word.localeCompare(b.word)).forEach(({ word, definition }) => {
                 const listItem = document.createElement("li");
                 listItem.textContent = `${word} - ${definition}`;
@@ -259,17 +250,11 @@
         });
     }
 
-    // Main execution
+    // Initialize
     const groupedWords = groupWordsByLetter(words);
     createAlphabetLinks();
     createDictionarySections(groupedWords);
 </script>
 
 </body>
-<header>
-    <h1>Originally created 13.06.2023</h1>
-</header>
-<header>
-    <h1>Last update 09.11.2024 23:32</h1>
-</header>
 </html>
