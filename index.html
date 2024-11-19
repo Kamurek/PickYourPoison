@@ -60,6 +60,11 @@
             color: #ccc;
         }
 
+        /* Styling specifically for Omega */
+        .omega {
+            color: rgba(255, 0, 0, 0.5); /* Light red with transparency */
+        }
+
     
     </style>
 </head>
@@ -183,24 +188,27 @@
         { word: "have", definition: "hyav" },
         { word: "fog", definition: "poforg" },
         { word: "the", definition: "de" },
-        { word: "я wise person", definition: "pypman" },
+        { word: "Ω wise person", definition: "pypman" },
         { word: "butt", definition: "gyat" },
-        { word: "я do something fast as fuck in a crazy low quality manner", definition: "skibidig" },
-        { word: "я very formally clothed person", definition: "sjpwomg" },
-        { word: "я large body of water", definition: "chulagon" },
-        { word: "я industrial vehicle", definition: "soviet toreote" },
-        { word: "я awesome person", definition: "chad" },
+        { word: "Ω do something fast as fuck in a crazy low quality manner", definition: "skibidig" },
+        { word: "Ω very formally clothed person", definition: "sjpwomg" },
+        { word: "Ω large body of water", definition: "chulagon" },
+        { word: "Ω industrial vehicle", definition: "soviet toreote" },
+        { word: "Ω awesome person", definition: "chad" },
         { word: "transparent", definition: "granapsarnt" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
-        { word: "ΩTESTTEST", definition: "ΩTEST" },
+        { word: "document(s)", definition: "annpapex" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
+        { word: "яTESTTEST", definition: "яTEST" },
         
     ];
 
@@ -277,11 +285,16 @@
     });
 </script>
 
+<script>
+    // Search and wrap all Ω symbols
+    document.body.innerHTML = document.body.innerHTML.replace(/Ω/g, '<span class="omega">Ω</span>');
+</script>
+
 </body>
 <header>
     <h1>Originally created 13.06.2023</h1>
 </header>
 <header>
-    <h1>Last update 09.11.2024 23:32</h1>
+    <h1>Last update 19.11.2024 22:25</h1>
 </header>
 </html>
